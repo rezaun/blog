@@ -21,8 +21,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/', function(){
-    return view('website.home');
+Route::get('/admin', function(){
+    return view('website.home')->name('website');
 });
 Route::get('/about', function (){
     return view('website.about');
@@ -39,6 +39,9 @@ Route::get('/single', function (){
 
 
 //Admin Route here
-Route::get('/test', function (){
-    return view('admin.dashboard.index');
+Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function (){
+    Route::get('/dashboard', function (){
+        return view('admid.dashboard.index');
+    });
+    Route::resource('category', 'categoryController');
 });
